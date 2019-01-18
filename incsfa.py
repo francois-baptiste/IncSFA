@@ -100,7 +100,7 @@ class IncSFANode(object):
         self.zbvar = signalVarNode()
 
         self.T = self.kwargs.get('T', 1)
-        self._curreps = [self.eps for _ in xrange(output_dim)]           
+        self._curreps = [self.eps for _ in range(output_dim)]           
         self._initExp = True
         
         self.n = 1
@@ -143,11 +143,11 @@ class IncSFANode(object):
         if self.eps is None:        
             self.singlepcanode.update(zdot)
             self.mcanode.gamma = np.asscalar(1.2*self.singlepcanode.d/np.mean(self.zbvar.update(zdot)))         # set gamma > lamda_1
-            self._curreps = [0.2/(self.mcanode.gamma[0]*((1/1.2) + eig_id)) for eig_id in xrange(self.output_dim)]
+            self._curreps = [0.2/(self.mcanode.gamma[0]*((1/1.2) + eig_id)) for eig_id in range(self.output_dim)]
         else:
             self.mcanode.gamma = 1.2*(0.2/self.eps)
             self.mcanode.eps = self._epsUpdate(self.n)
-            self._curreps = [self.eps/(1 + eig_id*1.2) for eig_id in xrange(self.output_dim)]
+            self._curreps = [self.eps/(1 + eig_id*1.2) for eig_id in range(self.output_dim)]
 
         self.mcanode.update(zdot)
 
@@ -173,13 +173,13 @@ class IncSFANode(object):
         self._newerr = 0.0
         self._errcnt = 0
         if buf is not None:
-            if 'slowFeatures' in buf.keys():
+            if 'slowFeatures' in list(buf.keys()):
                 buf['slowFeatures'].append(self.v.copy())
-            if 'whiteningVectors' in buf.keys():
+            if 'whiteningVectors' in list(buf.keys()):
                 buf['whiteningVectors'].append(self.wv.copy())
-            if 'error' in buf.keys():
+            if 'error' in list(buf.keys()):
                 buf['error'].append(self.err)
-            if 'derror' in buf.keys():
+            if 'derror' in list(buf.keys()):
                 buf['derror'].append(self.derr)
         return buf
 

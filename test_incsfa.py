@@ -18,7 +18,7 @@ except ImportError:
 def testincsfa(animate=False):
     try:        
         import mdp.nodes
-    except ImportError: raise('Intall MDP toolkit for check/test')
+    except ImportError: raise ImportError('Intall MDP toolkit for check/test')
     
     iterval = 20
     t = np.linspace(0, 4 * np.pi, 500)
@@ -115,17 +115,17 @@ def testincsfa(animate=False):
             cnt=[0]
             _tcnt = time.time()
             def animloop():
-                rtnval = trn.next()
+                rtnval = next(trn)
                 if not rtnval:
                     timer.stop()
-                    print ''
-                    print 'Total Time for %d iterations: '%(iterval), time.time()-_tcnt
-                    print 'Success status: ', np.allclose(dcosines[cnt[0]-1], np.ones(output_dim), atol=1e-2)
-                    print 'Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[cnt[0]-1]))
+                    print('')
+                    print('Total Time for %d iterations: '%(iterval), time.time()-_tcnt)
+                    print('Success status: ', np.allclose(dcosines[cnt[0]-1], np.ones(output_dim), atol=1e-2))
+                    print('Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[cnt[0]-1])))
                     return
                 v = trainer.monitorVar['slowFeatures'][0]
                 out = node.execute(input_data)
-                for dim in xrange(output_dim):
+                for dim in range(output_dim):
                     dcosines[cnt[0], dim] = np.abs(np.dot(v[dim], bv[dim].T))/(np.linalg.norm(v[dim])*np.linalg.norm(bv[dim]))
                 
                 for i in range(output_dim):
@@ -142,8 +142,8 @@ def testincsfa(animate=False):
             trainer.train(input_data, iterval=iterval, monitor_keys=['slowFeatures'])
             v = trainer.monitorVar['slowFeatures']
             dcosines = np.zeros([len(v),output_dim])
-            for i in xrange(len(v)):
-                for dim in xrange(output_dim):
+            for i in range(len(v)):
+                for dim in range(output_dim):
                     dcosines[i, dim] = np.abs(np.dot(v[i][dim], bv[dim].T))/(np.linalg.norm(v[i][dim])*np.linalg.norm(bv[dim]))
 
             out = node.execute(input_data)
@@ -155,10 +155,10 @@ def testincsfa(animate=False):
                 curves2[i].setData(out[:,i])
   
             view.show()
-            print ''
-            print 'Total Time for %d iterations: '%(iterval), time.time()-_tcnt
-            print 'Success status: ', np.allclose(dcosines[-1], np.ones(output_dim), atol=1e-2)
-            print 'Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[-1]))
+            print('')
+            print('Total Time for %d iterations: '%(iterval), time.time()-_tcnt)
+            print('Success status: ', np.allclose(dcosines[-1], np.ones(output_dim), atol=1e-2))
+            print('Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[-1])))
 
         app.exec_()
     else:
@@ -166,14 +166,14 @@ def testincsfa(animate=False):
         trainer.train(input_data, iterval=iterval, monitor_keys=['slowFeatures'])
         v = trainer.monitorVar['slowFeatures']
         dcosines = np.zeros([len(v),output_dim])
-        for i in xrange(len(v)):
-            for dim in xrange(output_dim):
+        for i in range(len(v)):
+            for dim in range(output_dim):
                 dcosines[i, dim] = np.abs(np.dot(v[i][dim], bv[dim].T))/(np.linalg.norm(v[i][dim])*np.linalg.norm(bv[dim]))
 
-        print ''
-        print 'Total Time for %d iterations: '%(iterval), time.time()-_tcnt
-        print 'Success status: ', np.allclose(dcosines[-1], np.ones(output_dim), atol=1e-2)
-        print 'Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[-1]))
+        print('')
+        print('Total Time for %d iterations: '%(iterval), time.time()-_tcnt)
+        print('Success status: ', np.allclose(dcosines[-1], np.ones(output_dim), atol=1e-2))
+        print('Maximum error: ', np.max(np.abs(np.ones(output_dim)-dcosines[-1])))
 
 
         plt.figure(figsize=(12,5))
@@ -183,7 +183,7 @@ def testincsfa(animate=False):
         plt.plot(dcosines)
         plt.ylim([0,1.1])
         plt.title('Direction Cosines')
-        plt.legend(['V-%d'%(i+1) for i in xrange(output_dim)])
+        plt.legend(['V-%d'%(i+1) for i in range(output_dim)])
         plt.xlabel('Ticker')
 
         out = node.execute(input_data)

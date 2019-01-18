@@ -24,7 +24,7 @@ class signalAvgNode(object):
             if self.n == 0:
                 self.avg = (self.n * self.avg + input_data.sum(axis=0)) / (self.n + input_data.shape[0])
             else:
-                for i in xrange(input_data.shape[0]):
+                for i in range(input_data.shape[0]):
                     self.avg = (1-alpha) * self.avg + alpha*input_data[i,:]
         self.n += input_data.shape[0]
         return self.avg

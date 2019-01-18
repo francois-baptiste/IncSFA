@@ -113,7 +113,7 @@ class CCIPCANode(object):
         explained_var = 0.0
         
         r = x.copy()
-        for j in xrange(self.output_dim):
+        for j in range(self.output_dim):
             v = self._v[j:j+1].copy()
             v = w1 * v + w2 * np.dot(r, v.T) / self._d[j] * r
             self._d[j] = np.linalg.norm(v) 
@@ -146,9 +146,9 @@ class CCIPCANode(object):
         return np.dot(xm, self.v.T)
 
     def monitorVariables(self, buf):
-        if 'eigenVectors' in buf.keys():
+        if 'eigenVectors' in list(buf.keys()):
             buf['eigenVectors'].append(self.v.copy())
-        if 'eigenValues' in buf.keys():
+        if 'eigenValues' in list(buf.keys()):
             buf['eigenValues'].append(self.d.copy())
         return buf
 
@@ -200,7 +200,7 @@ class WhiteningNode(CCIPCANode):
         super(WhiteningNode,self).update(x=x)
         if self.v is not None:
             wv = np.zeros(self.v.shape)
-            for i in xrange(wv.shape[0]):
+            for i in range(wv.shape[0]):
                 wv[i] = self.v[i] / np.sqrt(self.d[i])
             self.v = wv
 

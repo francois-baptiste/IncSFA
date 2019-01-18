@@ -63,7 +63,7 @@ class TrainerNode(object):
 
     def _dataIncGen(self, x, iterval):
         totSamples = x.shape[0]*iterval
-        for n in xrange(totSamples):
+        for n in range(totSamples):
             updateProgressBar((n+1)/float(totSamples), 'Training %s'%(type(self.ulnode).__name__), self._barLength)
             i = n%x.shape[0]
             yield x[i:i+1]
@@ -71,26 +71,26 @@ class TrainerNode(object):
     def _dataBlkIncGen(self, x, iterval):
         totBlks = x.shape[0]/int(self.blkSize) + (x.shape[0]%int(self.blkSize) > 0)
         totBlks *= iterval
-        for blk in xrange(totBlks):
+        for blk in range(totBlks):
             updateProgressBar((blk+1)/float(totBlks), 'Training %s'%(type(self.ulnode).__name__), self._barLength)
             i = (blk*self.blkSize)%x.shape[0]
             yield x[i:i+self.blkSize]
 
     def _dataBatGen(self, x, iterval):
         self.ticker = x.shape[0]
-        for n in xrange(iterval):
+        for n in range(iterval):
             updateProgressBar((n+1)/float(iterval), 'Training %s'%(type(self.ulnode).__name__), self._barLength)
             yield x
             
 
     def train(self, x, iterval=1, **kwargs):
         assert(x.ndim >= 2)
-        print '\nTraining %s....'%(type(self.ulnode).__name__)
+        print('\nTraining %s....'%(type(self.ulnode).__name__))
         x = x.reshape(x.shape[0], np.prod(x.shape[1:]))
 
         if x.shape[0] is 1: iterval=1          #overide iterval value when input is just a single sample
 
-        if kwargs.has_key('monitor_keys'): 
+        if 'monitor_keys' in kwargs: 
             self.monitorVar = {key:[] for key in kwargs['monitor_keys']}
         else: 
             self.monitorVar = {}
@@ -108,10 +108,10 @@ class TrainerNode(object):
            yields 0 - when done 
         '''
         assert(x.ndim >= 2)
-        print '\nTraining %s....'%(type(self.ulnode).__name__)
+        print('\nTraining %s....'%(type(self.ulnode).__name__))
         x = x.reshape(x.shape[0], np.prod(x.shape[1:]))
         if x.shape[0] is 1: iterval=1          #overide iterval value when input is just a single sample
-        if kwargs.has_key('monitor_keys'): 
+        if 'monitor_keys' in kwargs: 
             MONITOR = True
             self.monitorVar = {key:[] for key in kwargs['monitor_keys']}
         else: MONITOR = False

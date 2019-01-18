@@ -89,7 +89,7 @@ class MCANode(object):
             x = self.xavg.deMean(x).copy()
         
         C = np.dot(x.T, x)
-        for j in xrange(self.output_dim):
+        for j in range(self.output_dim):
             if self.eps is None:
                 n = 0.2/(self.gamma*((1/1.2) + j))
             else:
@@ -119,9 +119,9 @@ class MCANode(object):
         return np.dot(xm, self.v.T)
 
     def monitorVariables(self, buf):
-        if 'eigenVectors' in buf.keys():
+        if 'eigenVectors' in list(buf.keys()):
             buf['eigenVectors'].append(self.v.copy())
-        if 'eigenValues' in buf.keys():
+        if 'eigenValues' in list(buf.keys()):
             buf['eigenValues'].append(self.d.copy())
         return buf
 
